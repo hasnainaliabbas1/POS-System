@@ -45,6 +45,26 @@ public class BranchModel {
         return branchNames;
     }
 
+    public static ArrayList<String> getActiveBranchNamesFromDatabase() {
+        ArrayList<String> activeBranchNames = new ArrayList<>();
+
+        String query = "SELECT branch_name FROM branches WHERE is_active = 1";
+        try (Connection conn = DatabaseManager.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+
+            while (rs.next()) {
+                activeBranchNames.add(rs.getString("branch_name"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return activeBranchNames;
+    }
+
+
     // BranchDetails class to hold branch information
     public static class BranchDetails {
         private String branchName;
@@ -52,13 +72,15 @@ public class BranchModel {
         private String address;
         private String phone;
         private boolean isActive;
+        private String branchCode;
 
-        public BranchDetails(String branchName, String city, String address, String phone, boolean isActive) {
+        public BranchDetails(String branchName, String city, String address, String phone, boolean isActive,String branchCode) {
             this.branchName = branchName;
             this.city = city;
             this.address = address;
             this.phone = phone;
             this.isActive = isActive;
+            this.branchCode = branchCode;
         }
 
         public String getBranchName() { return branchName; }
@@ -66,6 +88,7 @@ public class BranchModel {
         public String getAddress() { return address; }
         public String getPhone() { return phone; }
         public boolean isActive() { return isActive; }
+        public String getBranchCode(){return branchCode ;}
     }
 
     // Fetch branch details by branch name
@@ -82,7 +105,7 @@ public class BranchModel {
                 String phone = resultSet.getString("phone");
                 boolean isActive = resultSet.getBoolean("is_active");
 
-                return new BranchDetails(branchName, city, address, phone, isActive);
+                return new BranchDetails(branchName, city, address, phone, isActive, resultSet.getString("branch_code"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
