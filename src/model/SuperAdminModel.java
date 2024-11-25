@@ -13,7 +13,7 @@ public class SuperAdminModel {
             stmt.setString(1, username);
             stmt.setString(2, password);
             ResultSet rs = stmt.executeQuery();
-            return rs.next();  // If result set is not empty, credentials are valid
+            return rs.next();
         } catch (SQLException e) {
             e.printStackTrace();
             return false;

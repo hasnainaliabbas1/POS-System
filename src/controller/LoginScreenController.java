@@ -1,7 +1,7 @@
 package controller;
 
+import view.AdminManager.AdminManagerPanel;
 import view.LoginScreenView;
-import view.SuperAdminLoginScreen;
 
 public class LoginScreenController {
     private LoginScreenView loginsScreenView;
@@ -24,13 +24,11 @@ public class LoginScreenController {
         new SuperAdminLoginController();
     }
 
-    private void openAdminLogin() {
-        // Admin login logic
-        System.out.println("Admin / Branch Manager Login Screen");
-    }
+    private void openAdminLogin() {   AdminManagerController adminManagerController = new AdminManagerController();
+        adminManagerController.show();}
 
     private void openCashierLogin() {
-        // Cashier login logic
+
         System.out.println("Cashier Login Screen");
     }
 

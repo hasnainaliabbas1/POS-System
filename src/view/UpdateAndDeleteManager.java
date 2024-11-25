@@ -21,37 +21,34 @@ public class UpdateAndDeleteManager extends JPanel {
         managerModel = new ManagerModel();
         setLayout(new BorderLayout());
 
-        // Back button
         JButton backButton = new JButton("Back");
         backButton.addActionListener(e -> {
-            // Handle navigation to the previous screen
-            updatePanel.setVisible(false); // Hide the update panel when Back button is clicked
+
+            updatePanel.setVisible(false);
         });
         add(backButton, BorderLayout.NORTH);
 
         // Create the table
         managerTable = new JTable();
-        loadManagerDataIntoTable(); // Populate the table with data
+        loadManagerDataIntoTable();
         JScrollPane scrollPane = new JScrollPane(managerTable);
         add(scrollPane, BorderLayout.CENTER);
 
-        // Create the Update panel (hidden initially)
+
         updatePanel = createUpdatePanel();
         add(updatePanel, BorderLayout.SOUTH);
     }
 
-    // Load manager data into the JTable
     private void loadManagerDataIntoTable() {
-        String[] columnNames = {"Manager ID", "Branch Code", "Name", "Email", "Address", "Salary", "Experience", "Remarks", "Update", "Delete"};
+        String[] columnNames = {"Manager ID", "Branch Name","Branch Code", "Name", "Email", "Address", "Salary", "Experience", "Remarks", "Update", "Delete"};
 
-        // Fetch manager data from the database
         ArrayList<ManagerModel.ManagerDetails> managerList = managerModel.getManagerData();
 
-        // Populate data into an Object array
         Object[][] data = new Object[managerList.size()][columnNames.length];
         for (int i = 0; i < managerList.size(); i++) {
             ManagerModel.ManagerDetails manager = managerList.get(i);
             data[i][0] = manager.getManagerId();
+
             data[i][1] = manager.getBranchCode();
             data[i][2] = manager.getName();
             data[i][3] = manager.getEmail();
@@ -59,20 +56,19 @@ public class UpdateAndDeleteManager extends JPanel {
             data[i][5] = manager.getSalary();
             data[i][6] = manager.getExperience();
             data[i][7] = manager.getRemarks();
-            data[i][8] = "Update"; // Set initial label for Update
-            data[i][9] = "Delete"; // Set initial label for Delete
+            data[i][8] = "Update";
+            data[i][9] = "Delete";
         }
 
         DefaultTableModel model = new DefaultTableModel(data, columnNames) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                // Make only Update and Delete columns editable
+
                 return column == 8 || column == 9;
             }
         };
         managerTable.setModel(model);
 
-        // Add button renderers for the Update and Delete columns
         TableColumn updateColumn = managerTable.getColumnModel().getColumn(8);
         updateColumn.setCellRenderer(new ButtonRenderer("Update"));
         updateColumn.setCellEditor(new ButtonEditor(new JCheckBox(), true));
@@ -82,14 +78,12 @@ public class UpdateAndDeleteManager extends JPanel {
         deleteColumn.setCellEditor(new ButtonEditor(new JCheckBox(), false));
     }
 
-    // Create the update form panel
     private JPanel createUpdatePanel() {
         JPanel panel = new JPanel(new GridBagLayout());
         panel.setBackground(Color.WHITE);
         panel.setBorder(BorderFactory.createTitledBorder("Update Manager Details"));
-        panel.setVisible(false); // Initially hidden
+        panel.setVisible(false);
 
-        // Form fields for manager data
         JTextField managerIdField = new JTextField(15);
         JTextField managerNameField = new JTextField(15);
         JTextField emailField = new JTextField(15);
@@ -186,7 +180,6 @@ public class UpdateAndDeleteManager extends JPanel {
         return panel;
     }
 
-    // Renderer for Update and Delete buttons
     private class ButtonRenderer extends JButton implements TableCellRenderer {
         private String label;
 
@@ -196,7 +189,7 @@ public class UpdateAndDeleteManager extends JPanel {
 
         public Component getTableCellRendererComponent(JTable table, Object value,
                                                        boolean isSelected, boolean hasFocus, int row, int column) {
-            setText(label); // Use the provided label for button text
+            setText(label);
             return this;
         }
     }
@@ -223,7 +216,7 @@ public class UpdateAndDeleteManager extends JPanel {
         private void handleButtonClick() {
             int row = managerTable.getSelectedRow();
             if (isUpdate) {
-                // Handle update button click
+
                 int managerId = (Integer) managerTable.getValueAt(row, 0);
                 String name = (String) managerTable.getValueAt(row, 2);
                 String email = (String) managerTable.getValueAt(row, 3);
@@ -247,7 +240,6 @@ public class UpdateAndDeleteManager extends JPanel {
         }
     }
 
-    // Simple email validation
     private boolean isValidEmail(String email) {
         String regex = "^[A-Za-z0-9+_.-]+@(.+)$";
         Pattern pattern = Pattern.compile(regex);

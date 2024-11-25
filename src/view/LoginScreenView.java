@@ -27,7 +27,7 @@ public class LoginScreenView extends JFrame {
         Color dataEntryColor = new Color(153, 51, 153);
 
         superAdminButton = createRoleButton("Super Admin", superAdminColor);
-        adminButton = createRoleButton("Admin / Branch Manager", adminColor);
+        adminButton = createRoleButton("Branch Manager", adminColor);
         cashierButton = createRoleButton("Cashier", cashierColor);
         dataEntryButton = createRoleButton("Data Entry Operator", dataEntryColor);
 

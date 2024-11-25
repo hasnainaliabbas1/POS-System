@@ -27,13 +27,12 @@ public class ManageBranchPanel extends JPanel {
         cardPanel.add(new UpdateBranchPanel(), "updateBranchPanel");
       //  cardPanel.add(new DeactivateBranchPanel(), "deactivateBranchPanel");
 
-        // Add card panel to ManageBranchPanel
         add(cardPanel, BorderLayout.CENTER);
         cardLayout.show(cardPanel, "mainPanel");
     }
 
     private JPanel createMainPanel() {
-        // Create the main panel with a GridBagLayout
+
         JPanel mainPanel = new JPanel(new GridBagLayout());
         mainPanel.setBackground( Color.white);
 
@@ -47,14 +46,11 @@ public class ManageBranchPanel extends JPanel {
         updateBranchButton.addActionListener(e -> cardLayout.show(cardPanel, "updateBranchPanel"));
         deactivateBranchButton.addActionListener(e -> cardLayout.show(cardPanel, "deactivateBranchPanel"));
 
-        // Arrange buttons in a flow layout
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 40, 40));
         buttonPanel.setBackground(new Color(58, 130, 248));
         buttonPanel.add(addBranchButton);
         buttonPanel.add(updateBranchButton);
         buttonPanel.add(deactivateBranchButton);
-
-        // Add button panel to main panel using GridBagConstraints
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
